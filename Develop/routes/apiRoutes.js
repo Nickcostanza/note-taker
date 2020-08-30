@@ -5,7 +5,6 @@ const store = require ('../db/store.js');
 
 //Retriving notes
 router.get('/notes', function(req,res) {
-    //error message
     store.getNotes().then(notes => res.json(notes))
 });
 
