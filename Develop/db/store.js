@@ -2,16 +2,16 @@
 
 const util = require('util');
 const fs = require('fs');
-var { v1: uuidv4 } = require('uuid');
+var { v1: uuidv1 } = require('uuid');
 const readFileAsync = util.promisify(fs.readFile);
 const writeFileAsync = util.promisify(fs.writeFile);
 
 class Store {
-    read(){
+    read() {
         return readFileAsync('db/db.json', 'utf8')
     }
     write(note) {
-        return writeFileAsync('dn/db.json', JSON.stringify(note))
+        return writeFileAsync('db/db.json', JSON.stringify(note))
     }
 
     getNotes() {
@@ -36,12 +36,12 @@ class Store {
 
         const addNote = { title, text, id: uuidv1() }
         return this.getNotes()
-        .then(notes => [...notes, addNote])
-        .then(updatedNotes => this.write(updatedNotes))
-        .then(() => addNote);
+            .then(notes => [...notes, addNote])
+            .then(updatedNotes => this.write(updatedNotes))
+            .then(() => addNote);
     }
 
-    removenote(id) {
+    removeNote(id) {
         return this.getNotes()
         .then((remove) => remove.filter(removedNote => removedNote.id !== id))
         .then(filteredNotes => this.write(filteredNotes));
